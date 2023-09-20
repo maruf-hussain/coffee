@@ -1,4 +1,5 @@
 import React from 'react';
+import Swal from 'sweetalert2'
 
 const AddCoffee = () => {
     const handleAddCoffee = event => {
@@ -10,8 +11,29 @@ const AddCoffee = () => {
         const testy = form.testy.value;
         const category = form.category.value;
         const details = form.details.value;
-        const coffee = {name,quantity,supplier,testy,category,details};
-        console.log(coffee);
+        const Newcoffee = {name,quantity,supplier,testy,category,details};
+        console.log(Newcoffee);
+
+        fetch('http://localhost:5000/coffee', {
+            method:'POST',
+            headers: {
+                "content-type":'application/json'
+
+            },
+            body:JSON.stringify(Newcoffee)
+        })
+        .then(res => res.json())
+        .then(data => {
+            console.log(data);
+            if(data.insertedId){
+                Swal.fire({
+                    title: 'Success',
+                    text: 'Added Coffee',
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                  })
+            }
+        })
 
     }
     return (
